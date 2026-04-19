@@ -1,10 +1,6 @@
 package com.jpmc.midascore.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 
 @Entity
 public class UserRecord {
@@ -16,13 +12,27 @@ public class UserRecord {
     @Column
     private String name;
 
+    @Column
+    private Float balance;   // 🔥 IMPORTANT (this is missing)
+
+    // Default constructor (required)
     public UserRecord() {}
+
+    // ✅ ADD THIS CONSTRUCTOR
+    public UserRecord(String name, Float balance) {
+        this.name = name;
+        this.balance = balance;
+    }
 
     public Long getId() { return id; }
 
     public String getName() { return name; }
 
+    public Float getBalance() { return balance; }
+
     public void setId(Long id) { this.id = id; }
 
     public void setName(String name) { this.name = name; }
+
+    public void setBalance(Float balance) { this.balance = balance; }
 }
