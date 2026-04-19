@@ -1,6 +1,7 @@
 package com.jpmc.midascore.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.jpmc.midascore.entity.UserRecord;
@@ -13,22 +14,17 @@ public class DatabaseConduit {
     @Autowired
     private UserRepository userRepository;
 
+    @KafkaListener(topics = "transactions", groupId = "midas-group")   // 🔥 ADD THIS
     public void process(Transaction transaction) {
 
-        // Find sender
         UserRecord sender = userRepository.findByName(transaction.getSender());
-
-        // Find receiver
         UserRecord receiver = userRepository.findByName(transaction.getRecipient());
 
         if (sender != null && receiver != null) {
 
             Float amount = transaction.getAmount();
 
-            // Deduct from sender
             sender.setBalance(sender.getBalance() - amount);
-
-            // Add to receiver
             receiver.setBalance(receiver.getBalance() + amount);
 
             userRepository.save(sender);
