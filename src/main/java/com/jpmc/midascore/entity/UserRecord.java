@@ -13,11 +13,10 @@ public class UserRecord {
     private String name;
 
     @Column
-    private Float balance;   // ✅ REQUIRED
+    private Float balance;
 
     public UserRecord() {}
 
-    // ✅ REQUIRED CONSTRUCTOR
     public UserRecord(String name, Float balance) {
         this.name = name;
         this.balance = balance;
