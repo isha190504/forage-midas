@@ -14,7 +14,7 @@ public class DatabaseConduit {
     @Autowired
     private UserRepository userRepository;
 
-    @KafkaListener(topics = "transactions", groupId = "midas-group")   // 🔥 ADD THIS
+    @KafkaListener(topics = "transactions", groupId = "midas-group")
     public void process(Transaction transaction) {
 
         UserRecord sender = userRepository.findByName(transaction.getSender());
