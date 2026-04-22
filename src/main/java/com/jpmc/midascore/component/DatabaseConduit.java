@@ -17,8 +17,8 @@ public class DatabaseConduit {
     @KafkaListener(topics = "transactions", groupId = "midas-group")
     public void process(Transaction transaction) {
 
-        UserRecord sender = userRepository.findByName(transaction.getSender());
-        UserRecord receiver = userRepository.findByName(transaction.getRecipient());
+        UserRecord sender = userRepository.findByName(transaction.getFrom());
+        UserRecord receiver = userRepository.findByName(transaction.getTo());
 
         if (sender != null && receiver != null) {
 
