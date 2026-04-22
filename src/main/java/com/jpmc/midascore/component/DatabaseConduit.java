@@ -15,21 +15,18 @@ public class DatabaseConduit {
 
     public void process(Transaction transaction) {
 
-        // Find sender using ID
-        UserRecord sender = userRepository.findById(transaction.getSenderId()).orElse(null);
+    UserRecord sender = userRepository.findById(transaction.getSenderId()).orElse(null);
+    UserRecord receiver = userRepository.findById(transaction.getRecipientId()).orElse(null);
 
-        // Find receiver using ID
-        UserRecord receiver = userRepository.findById(transaction.getRecipientId()).orElse(null);
+    if (sender != null && receiver != null) {
 
-        if (sender != null && receiver != null) {
+        Float amount = transaction.getAmount();
 
-            Float amount = transaction.getAmount();
+        sender.setBalance(sender.getBalance() - amount);
+        receiver.setBalance(receiver.getBalance() + amount);
 
-            sender.setBalance(sender.getBalance() - amount);
-            receiver.setBalance(receiver.getBalance() + amount);
-
-            userRepository.save(sender);
-            userRepository.save(receiver);
+        userRepository.save(sender);
+        userRepository.save(receiver);
         }
     }
 }
